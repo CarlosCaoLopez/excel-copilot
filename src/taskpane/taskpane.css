@@ -1,0 +1,175 @@
+/* ─── Reset & Base ─────────────────────────────────────────────── */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 14px;
+  color: #323130;
+  background-color: #faf9f8;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  height: 100vh;
+}
+
+/* ─── Sections ─────────────────────────────────────────────────── */
+section {
+  background: #ffffff;
+  border: 1px solid #edebe9;
+  border-radius: 4px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+section h3 {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #605e5c;
+}
+
+/* ─── Prompt Input ─────────────────────────────────────────────── */
+#prompt-section {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+#input-prompt {
+  flex: 1;
+  padding: 8px 10px;
+  border: 1px solid #c8c6c4;
+  border-radius: 2px;
+  font-size: 13px;
+  color: #323130;
+  background: #fff;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+#input-prompt:focus {
+  border-color: #0078d4;
+}
+
+#input-prompt::placeholder {
+  color: #a19f9d;
+}
+
+/* ─── Buttons ──────────────────────────────────────────────────── */
+button {
+  padding: 7px 14px;
+  border: none;
+  border-radius: 2px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 0.15s,
+    opacity 0.15s;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+#btn-submit-prompt {
+  background-color: #0078d4;
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+#btn-submit-prompt:hover:not(:disabled) {
+  background-color: #106ebe;
+}
+
+#btn-accept {
+  background-color: #107c10;
+  color: #ffffff;
+  flex: 1;
+}
+
+#btn-accept:hover:not(:disabled) {
+  background-color: #0b6a0b;
+}
+
+#btn-dismiss {
+  background-color: #f3f2f1;
+  color: #323130;
+  flex: 1;
+}
+
+#btn-dismiss:hover:not(:disabled) {
+  background-color: #edebe9;
+}
+
+/* ─── Suggestion Box ───────────────────────────────────────────── */
+#suggestion-section {
+  flex: 1;
+  min-height: 0;
+}
+
+#suggestion-address {
+  font-size: 11px;
+  color: #605e5c;
+  font-weight: 600;
+}
+
+#suggestion-box {
+  background: #f3f2f1;
+  border-left: 3px solid #0078d4;
+  border-radius: 2px;
+  padding: 10px 12px;
+  font-size: 13px;
+  font-family: "Cascadia Code", "Courier New", monospace;
+  color: #323130;
+  min-height: 48px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  line-height: 1.5;
+}
+
+#suggestion-actions {
+  display: none;
+  gap: 8px;
+  flex-direction: row;
+}
+
+/* ─── Spinner ──────────────────────────────────────────────────── */
+#spinner {
+  display: none;
+  font-size: 12px;
+  color: #605e5c;
+  text-align: center;
+  padding: 4px 0;
+  animation: pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+/* ─── Error ────────────────────────────────────────────────────── */
+#error-message {
+  display: none;
+  background: #fde7e9;
+  border-left: 3px solid #d13438;
+  border-radius: 2px;
+  padding: 8px 12px;
+  font-size: 12px;
+  color: #a4262c;
+}

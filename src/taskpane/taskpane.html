@@ -1,0 +1,22 @@
+<body>
+  <!-- Manual prompt -->
+  <section id="prompt-section">
+    <input id="input-prompt" type="text" placeholder="Ask Claude something..." />
+    <button id="btn-submit-prompt">Ask</button>
+  </section>
+
+  <!-- Suggestion display -->
+  <section id="suggestion-section">
+    <span id="suggestion-address"></span>
+    <div id="suggestion-box"></div>
+
+    <div id="suggestion-actions" style="display: none">
+      <button id="btn-accept">✓ Accept</button>
+      <button id="btn-dismiss">✕ Dismiss</button>
+    </div>
+  </section>
+
+  <!-- Feedback -->
+  <div id="spinner" style="display: none">Loading...</div>
+  <div id="error-message" style="display: none; color: red"></div>
+</body>

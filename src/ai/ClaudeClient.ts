@@ -11,7 +11,7 @@ export class ClaudeClient {
   // Only responsibility: talk to the Claude API
   async complete(prompt: string, options: AutoCompleteOptions = {}): Promise<Suggestion> {
     const response = await this.client.messages.create({
-      model: "claude-sonnet-4-20250514",
+      model: "claude-sonnet-4-5",
       max_tokens: options.maxTokens ?? 256,
       messages: [{ role: "user", content: prompt }],
     });

@@ -1,3 +1,5 @@
+/// <reference types="office-js" />
+
 import { ExcelReader } from "../excel/ExcelReader";
 import { ExcelWriter } from "../excel/ExcelWriter";
 import { ExcelEventManager } from "../excel/ExcelEventManager";
@@ -8,9 +10,10 @@ import { TaskPaneController } from "../ui/TaskPaneController";
 
 
 
-const apiKey = process.env.API_KEY;
-if (!apiKey) throw new Error("API_KEY is not defined in .env");
+
 Office.onReady(() => {
+  const apiKey = process.env.API_KEY;
+  if (!apiKey) throw new Error("API_KEY is not defined in .env");
   // Wire up dependencies here — one place, easy to swap
   const reader = new ExcelReader();
   const writer = new ExcelWriter();

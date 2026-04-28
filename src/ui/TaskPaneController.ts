@@ -21,31 +21,53 @@ export class TaskPaneController {
   // ─── Event Registration ───────────────────────────────────────────────────
 
   private async registerExcelEvents(): Promise<void> {
-    await this.eventManager.onCellChanged(async (value, address) => {
-      await this.handleCellChanged(value, address);
-    });
-  }
+  // Listener de cambio de celda → genera ghost text
+  await this.eventManager.onCellChanged(async (value, address) => {
+    await this.handleCellChanged(value, address);
+  });
+
+  // Listener de cambio de selección → detecta Tab
+  await this.eventManager.onSelectionChanged(async (address) => {
+    await this.handleSelectionChanged(address);
+  });
+}
+
+  
 
   // ─── Excel Event Handlers ─────────────────────────────────────────────────
 
   private async handleCellChanged(value: string, address: string): Promise<void> {
-    if (!value || value.length < 2) {
-      this.clearSuggestion();
-      return;
-    }
-
-    this.setLoading(true);
-
-    try {
-      const suggestion = await this.autoCompleteService.suggest(value);
-      this.currentSuggestion = suggestion;
-      this.renderSuggestion(suggestion, address);
-    } catch (error) {
-      this.renderError("Could not fetch suggestion. Please try again.");
-    } finally {
-      this.setLoading(false);
-    }
+  if (!value || value.length < 2) {
+    await this.autoCompleteService.dismissInline();
+    this.clearSuggestion();
+    return;
   }
+
+  this.setLoading(true);
+
+  try {
+    // Muestra en task pane Y en celda adyacente
+    await this.autoCompleteService.suggestInline(value, address);
+    const suggestion = await this.autoCompleteService.suggest(value);
+    this.currentSuggestion = suggestion;
+    this.renderSuggestion(suggestion, address);
+  } catch (error) {
+    this.renderError("Could not fetch suggestion.");
+  } finally {
+    this.setLoading(false);
+  }
+}
+
+// Tab mueve la selección a la celda de la derecha — la detectamos aquí
+private async handleSelectionChanged(address: string): Promise<void> {
+  if (!this.autoCompleteService.acceptInline) return;
+
+  const accepted = await this.autoCompleteService.acceptInline();
+  if (accepted) {
+    this.clearSuggestion();
+    this.debug(`Accepted via Tab → ${address}`);
+  }
+}
 
   // ─── UI Event Bindings ────────────────────────────────────────────────────
 

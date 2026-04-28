@@ -19,6 +19,32 @@ export class AutoCompleteService {
     return this.claude.complete(prompt);
   }
 
+  // Muestra ghost text en la celda adyacente
+  async suggestInline(userInput: string, address: string): Promise<void> {
+    this.lastAnchorAddress = address;
+
+    const sheetContext = await this.reader.getUsedRange();
+    const prompt = this.promptBuilder.buildAutoCompletePrompt(sheetContext, userInput);
+    const suggestion = await this.claude.complete(prompt);
+
+    await this.writer.writeGhostText(address, suggestion.text);
+  }
+
+  // Tab presionado — acepta si hay ghost
+  async acceptInline(): Promise<boolean> {
+    if (!this.writer.hasGhost() || !this.lastAnchorAddress) return false;
+
+    await this.writer.acceptGhostText(this.lastAnchorAddress);
+    this.lastAnchorAddress = null;
+    return true;
+  }
+
+  // Escape — descarta ghost
+  async dismissInline(): Promise<void> {
+    await this.writer.clearGhostText();
+    this.lastAnchorAddress = null;
+  }
+
   async acceptSuggestion(suggestion: Suggestion): Promise<void> {
     await this.writer.writeToSelectedCell(suggestion.text);
   }
